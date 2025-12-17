@@ -11,8 +11,10 @@ public class Desk
   [MaxLength(5)]
   public string Code {get; private set; } = "";
 
+  // Constructor for EF
   private Desk(){}
 
+  // Constructor for seeder
   public Desk(string code)
   {
     this.Code = code;
