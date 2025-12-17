@@ -11,12 +11,16 @@ public class Desk
   [MaxLength(5)]
   public string Code {get; private set; } = "";
 
+  [Required]
+  public bool IsUnderMaintenance {get; private set; } = false;
+
   // Constructor for EF
   private Desk(){}
 
   // Constructor for seeder
-  public Desk(string code)
+  public Desk(string code, bool isUnderMaintenance = false)
   {
     this.Code = code;
+    this.IsUnderMaintenance = isUnderMaintenance;
   }
 }

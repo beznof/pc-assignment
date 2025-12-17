@@ -6,6 +6,7 @@ namespace backend.Data;
 public class AppDbContext: DbContext
 {
   public DbSet<Desk> Desks {get; private set;}
+  public DbSet<User> Users {get; private set;}
 
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   {
@@ -16,6 +17,10 @@ public class AppDbContext: DbContext
   {
     modelBuilder.Entity<Desk>()
       .HasIndex(desk => desk.Code)
+      .IsUnique();
+
+    modelBuilder.Entity<User>()
+      .HasIndex(user => user.Email)
       .IsUnique();
   }
 }

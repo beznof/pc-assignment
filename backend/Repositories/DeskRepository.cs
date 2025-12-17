@@ -7,7 +7,7 @@ namespace backend.Repositories;
 public interface IDeskRepository
 {
   Task<IEnumerable<Desk>> GetAllAsync();
-  Task<Desk?> GetByIdAsync(int id);
+  Task<Desk?> GetByIdAsync(int deskId);
 }
 
 public class DeskRepository: IDeskRepository
@@ -24,8 +24,8 @@ public class DeskRepository: IDeskRepository
     return await _dbContext.Desks.ToListAsync();
   }
 
-  public async Task<Desk?> GetByIdAsync(int id)
+  public async Task<Desk?> GetByIdAsync(int deskId)
   {
-    return await _dbContext.Desks.FirstOrDefaultAsync(desk => desk.Id == id);
+    return await _dbContext.Desks.FirstOrDefaultAsync(desk => desk.Id == deskId);
   }
 }

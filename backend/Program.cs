@@ -8,6 +8,7 @@ builder.Services.AddDbContext<AppDbContext>();
 
 // Repositories
 builder.Services.AddScoped<IDeskRepository, DeskRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
@@ -20,9 +21,9 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", async (IDeskRepository deskRepository) =>
+app.MapGet("/", async (IUserRepository userRepository) =>
 {
-    var desks = await deskRepository.GetAllAsync();
+    var desks = await userRepository.GetAllAsync();
     return desks;
 });
 
