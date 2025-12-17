@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models;
 
@@ -13,6 +14,9 @@ public class Desk
 
   [Required]
   public bool IsUnderMaintenance {get; private set; } = false;
+
+  [InverseProperty("Desk")]
+  public List<Reservation> Reservations {get; private set;} = new List<Reservation>();
 
   // Constructor for EF
   private Desk(){}

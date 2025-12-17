@@ -21,6 +21,15 @@ public static class DbSeeder
       new User("ggustaitis@example.com", "Gustas", "Gustaitis")
     );
 
+    var todaysDate = DateOnly.FromDateTime(DateTime.Today);
+
+    dbContext.Reservations.AddRange(
+      new Reservation(todaysDate.AddDays(-2), todaysDate.AddDays(1), 1, 1),
+      new Reservation(todaysDate, todaysDate.AddDays(5), 3, 1),
+      new Reservation(todaysDate.AddDays(-14), todaysDate, 4, 2),
+      new Reservation(todaysDate.AddDays(-3), todaysDate.AddDays(3), 5, 2)
+    );
+
     dbContext.SaveChanges();
   }
 }

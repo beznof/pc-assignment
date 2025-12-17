@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models;
 
@@ -18,6 +19,9 @@ public class User
   [Required]
   [MaxLength(30)]
   public string Surname {get; private set;} = "";
+
+  [InverseProperty("User")]
+  public List<Reservation> Reservations {get; private set;} = new List<Reservation>();
 
   // Constructor for EF
   private User(){}
