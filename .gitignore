@@ -1,0 +1,15 @@
+# Editors
+.vs/
+.idea/
+
+# .NET
+/backend/**/bin/
+/backend/**/obj/
+
+# Node
+/frontend/**/node_modules/
+/frontend/**/dist/
+
+# Environmental variables
+.env*
+!.env.placeholder
