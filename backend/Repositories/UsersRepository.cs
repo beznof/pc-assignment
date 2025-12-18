@@ -1,14 +1,14 @@
 using backend.Data;
-using backend.DTOs.DeskReservation;
-using backend.DTOs.UserProfile;
+using backend.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories;
 
 public interface IUsersRepository
 {
-  Task<IEnumerable<GetUserDto>> GetAllAsync();
-  Task<GetUserProfileDto?> GetProfileByIdAsync(int userId);
+  Task<User?> GetUserByIdAsync(int userId);
+  Task<IEnumerable<User>> GetAllUsersAsync();
+  Task<User?> GetUserAndReservationsByIdAsync(int userId);
 }
 
 public class UsersRepository: IUsersRepository
@@ -20,49 +20,21 @@ public class UsersRepository: IUsersRepository
     this._dbContext = dbContext;
   }
 
-  public async Task<IEnumerable<GetUserDto>> GetAllAsync()
+  public async Task<User?> GetUserByIdAsync(int userId)
   {
-    return await _dbContext.Users
-      .Select(user => new GetUserDto
-      {
-        Id = user.Id,
-        Email = user.Email,
-        Name = user.Name,
-        Surname = user.Surname
-      })
-      .ToListAsync();
+    return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == userId);
   }
 
-  public async Task<GetUserProfileDto?> GetProfileByIdAsync(int userId)
+  public async Task<IEnumerable<User>> GetAllUsersAsync()
   {
-    var today = DateOnly.FromDateTime(DateTime.Today);
+    return await _dbContext.Users.ToListAsync();
+  }
 
+  public async Task<User?> GetUserAndReservationsByIdAsync(int userId)
+  {
     return await _dbContext.Users
       .Where(user => user.Id == userId)
-      .Select(user => new GetUserProfileDto
-      {
-        Name = user.Name,
-        Surname = user.Surname,
-        Email = user.Email,
-        OngoingReservations = user.Reservations
-          .Where(reservation => reservation.ToDate >= today)
-          .Select(reservation => new GetUserReservationDto
-          {
-            Code = reservation.Desk.Code,
-            FromDate = reservation.FromDate,
-            ToDate = reservation.ToDate
-          })
-          .ToList(),
-        PastReservations = user.Reservations
-          .Where(reservation => reservation.ToDate < today)
-          .Select(reservation => new GetUserReservationDto
-          {
-            Code = reservation.Desk.Code,
-            FromDate = reservation.FromDate,
-            ToDate = reservation.ToDate
-          })
-          .ToList()
-      })
+      .Include(user => user.Reservations)
       .FirstOrDefaultAsync();
   }
 }

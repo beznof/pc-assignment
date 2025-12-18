@@ -48,10 +48,4 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 
-app.MapGet("/", async (IReservationsRepository reservationRepository) =>
-{
-    var desks = await reservationRepository.GetAllAsync();
-    return desks;
-});
-
 app.Run();

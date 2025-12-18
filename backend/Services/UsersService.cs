@@ -21,11 +21,53 @@ public class UsersService: IUsersService
 
   public async Task<GetUserProfileDto?> GetUserProfile (int userId)
   {
-    return await _usersRepository.GetProfileByIdAsync(userId);
+    var user =  await _usersRepository.GetUserAndReservationsByIdAsync(userId);
+
+    if (user == null)
+    {
+      return null;
+    }
+
+    var today = DateOnly.FromDateTime(DateTime.Today);
+
+    return new GetUserProfileDto
+    {
+      Name = user.Name,
+      Surname = user.Surname,
+      Email = user.Email,
+      OngoingReservations = user.Reservations
+      .Where(reservation => reservation.ToDate >= today)
+        .Select(reservation => new GetUserReservationDto
+        {
+          Code = reservation.Desk.Code,
+          FromDate = reservation.FromDate,
+          ToDate = reservation.ToDate
+        })
+        .ToList(),
+      PastReservations = user.Reservations
+        .Where(reservation => reservation.ToDate < today)
+        .Select(reservation => new GetUserReservationDto
+        {
+          Code = reservation.Desk.Code,
+          FromDate = reservation.FromDate,
+          ToDate = reservation.ToDate
+        })
+        .ToList()
+    };
   }
 
   public async Task<IEnumerable<GetUserDto>> GetAllUsers ()
   {
-    return await _usersRepository.GetAllAsync();
+    var users = await _usersRepository.GetAllUsersAsync();
+
+    return users
+      .Select(user => new GetUserDto
+      {
+        Id = user.Id,
+        Email = user.Email,
+        Name = user.Name,
+        Surname = user.Surname
+      })
+      .ToList();
   }
 }
