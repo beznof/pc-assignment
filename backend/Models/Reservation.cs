@@ -8,21 +8,23 @@ public class Reservation
   [Key]
   public int Id {get; private set;}
 
+  // Date range for reservation
   [Required]
   public DateOnly FromDate {get; private set;}
-
   [Required]
   public DateOnly ToDate {get; private set;}
 
+  // Desk FK
   [Required]
   public int DeskId {get; private set;}
 
+  // User FK
   [Required]
   public int UserId {get; private set;} 
 
+  // Navigation properties for linked Desks and Users
   [ForeignKey(nameof(DeskId))]
   public Desk Desk { get; private set; } = null!;
-
   [ForeignKey(nameof(UserId))]
   public User User { get; private set; } = null!;
 

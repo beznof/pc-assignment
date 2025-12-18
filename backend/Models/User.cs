@@ -20,6 +20,7 @@ public class User
   [MaxLength(30)]
   public string Surname {get; private set;} = "";
 
+  // Navigation property for linked Reservations
   [InverseProperty("User")]
   public List<Reservation> Reservations {get; private set;} = new List<Reservation>();
 

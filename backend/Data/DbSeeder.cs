@@ -6,6 +6,7 @@ public static class DbSeeder
 {
   public static void Seed(AppDbContext dbContext)
   {
+    // Desk seeding
     dbContext.Desks.AddRange(
       new Desk("A1"),
       new Desk("B1", true),
@@ -15,6 +16,7 @@ public static class DbSeeder
       new Desk("A3", true)
     );
 
+    // User seeding
     dbContext.Users.AddRange(
       new User("jjuozas@example.com", "Juozas", "Juozaitis"),
       new User("aauksyte@example.com", "Auksė", "Auksytė"),
@@ -23,6 +25,7 @@ public static class DbSeeder
 
     var todaysDate = DateOnly.FromDateTime(DateTime.Today);
 
+    // Reservation seeding
     dbContext.Reservations.AddRange(
       new Reservation(todaysDate.AddDays(-2), todaysDate.AddDays(1), 1, 1),
       new Reservation(todaysDate, todaysDate.AddDays(5), 3, 1),

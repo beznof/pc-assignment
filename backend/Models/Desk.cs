@@ -12,9 +12,11 @@ public class Desk
   [MaxLength(5)]
   public string Code {get; private set; } = "";
 
+  // Indicator for whether desk is under maintenance (unavailable)
   [Required]
   public bool IsUnderMaintenance {get; private set; } = false;
 
+  // Navigation property for linked Reservations
   [InverseProperty("Desk")]
   public List<Reservation> Reservations {get; private set;} = new List<Reservation>();
 
