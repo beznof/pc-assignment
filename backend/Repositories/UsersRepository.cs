@@ -5,17 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories;
 
-public interface IUserRepository
+public interface IUsersRepository
 {
   Task<IEnumerable<GetUserDto>> GetAllAsync();
   Task<GetUserProfileDto?> GetProfileByIdAsync(int userId);
 }
 
-public class UserRepository: IUserRepository
+public class UsersRepository: IUsersRepository
 {
   private readonly AppDbContext _dbContext;
 
-  public UserRepository(AppDbContext dbContext)
+  public UsersRepository(AppDbContext dbContext)
   {
     this._dbContext = dbContext;
   }

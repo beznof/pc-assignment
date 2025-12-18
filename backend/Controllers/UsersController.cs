@@ -1,5 +1,5 @@
-using System.ComponentModel;
 using System.Net.Mime;
+using backend.DTOs.DeskReservation;
 using backend.DTOs.UserProfile;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("api/profiles")]
+[Route("api/users")]
 [Produces(MediaTypeNames.Application.Json)]
 [Consumes(MediaTypeNames.Application.Json)]
-[Tags("Profile")]
-public class UserProfileController : ControllerBase
+[Tags("Users")]
+public class UsersController : ControllerBase
 {
-  private readonly UsersService _usersService;
+  private readonly IUsersService _usersService;
 
-  public UserProfileController(UsersService usersService)
+  public UsersController(IUsersService usersService)
   {
     this._usersService = usersService;
   }
@@ -27,11 +27,11 @@ public class UserProfileController : ControllerBase
   /// <returns>User's information, current and past reservations</returns>
   /// <response code="200">Returns user's profile data</response>
   /// <response code="404">User not found</response>
-  [HttpGet("{userId}")]
+  [HttpGet("profile/{userId}")]
   [ProducesResponseType(typeof(GetUserProfileDto), StatusCodes.Status200OK)]
   [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
   [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-  public async Task<ActionResult<GetUserProfileDto>> GetProfile([FromRoute] int userId)
+  public async Task<ActionResult<GetUserProfileDto>> GetProfile ([FromRoute] int userId)
   {
     var userProfile = await _usersService.GetUserProfile(userId);
 
@@ -44,6 +44,21 @@ public class UserProfileController : ControllerBase
       });
     }
 
-    return userProfile;
+    return StatusCode(200, userProfile);
+  }
+
+  /// <summary>
+  /// Retrieves the list of users
+  /// </summary>
+  /// <returns>List of users</returns>
+  /// <response code="200">Returns the list of users</response>
+  [HttpGet("all")]
+  [ProducesResponseType(typeof(IEnumerable<GetUserDto>), StatusCodes.Status200OK)]
+  [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+  public async Task<ActionResult<IEnumerable<GetUserDto>>> GetAllUsers ()
+  {
+    var users = await _usersService.GetAllUsers();
+
+    return StatusCode(200, users);
   }
 }
