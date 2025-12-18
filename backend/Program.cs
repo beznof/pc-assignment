@@ -11,12 +11,12 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>();
 
 // Repositories
-builder.Services.AddScoped<IDeskRepository, DeskRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<IDesksRepository, DesksRepository>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<IReservationsRepository, ReservationsRepository>();
 
 // Services
-builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 
 // SwaggerUI
 builder.Services.AddEndpointsApiExplorer();
@@ -48,7 +48,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 
-app.MapGet("/", async (IReservationRepository reservationRepository) =>
+app.MapGet("/", async (IReservationsRepository reservationRepository) =>
 {
     var desks = await reservationRepository.GetAllAsync();
     return desks;

@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories;
 
-public interface IReservationRepository
+public interface IReservationsRepository
 {
   Task<IEnumerable<Reservation>> GetAllAsync();
   Task<Reservation?> GetByIdAsync(int reservationId);
 }
 
-public class ReservationRepository: IReservationRepository
+public class ReservationsRepository: IReservationsRepository
 {
   private readonly AppDbContext _dbContext;
 
-  public ReservationRepository(AppDbContext dbContext)
+  public ReservationsRepository(AppDbContext dbContext)
   {
     this._dbContext = dbContext;
   }

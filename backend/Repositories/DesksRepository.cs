@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories;
 
-public interface IDeskRepository
+public interface IDesksRepository
 {
   Task<IEnumerable<Desk>> GetAllAsync();
   Task<Desk?> GetByIdAsync(int deskId);
 }
 
-public class DeskRepository: IDeskRepository
+public class DesksRepository: IDesksRepository
 {
   private readonly AppDbContext _dbContext;
 
-  public DeskRepository(AppDbContext dbContext)
+  public DesksRepository(AppDbContext dbContext)
   {
     this._dbContext = dbContext;
   }

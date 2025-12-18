@@ -13,11 +13,11 @@ namespace backend.Controllers;
 [Tags("Profile")]
 public class UserProfileController : ControllerBase
 {
-  private readonly IUserProfileService _userProfileService;
+  private readonly UsersService _usersService;
 
-  public UserProfileController(IUserProfileService userProfileService)
+  public UserProfileController(UsersService usersService)
   {
-    this._userProfileService = userProfileService;
+    this._usersService = usersService;
   }
 
   /// <summary>
@@ -33,7 +33,7 @@ public class UserProfileController : ControllerBase
   [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
   public async Task<ActionResult<GetUserProfileDto>> GetProfile([FromRoute] int userId)
   {
-    var userProfile = await _userProfileService.GetUserProfile(userId);
+    var userProfile = await _usersService.GetUserProfile(userId);
 
     if(userProfile == null)
     {

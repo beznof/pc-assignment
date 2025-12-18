@@ -4,28 +4,28 @@ using backend.Repositories;
 
 namespace backend.Services;
 
-public interface IUserProfileService
+public interface IUsersService
 {
   Task<GetUserProfileDto?> GetUserProfile (int userId);
   Task<IEnumerable<GetUserDto>> GetAllUsers ();
 }
 
-public class UserProfileService: IUserProfileService
+public class UsersService: IUsersService
 {
-  private readonly IUserRepository _userRepository;
+  private readonly IUsersRepository _usersRepository;
 
-  public UserProfileService(IUserRepository userRepository)
+  public UsersService(IUsersRepository usersRepository)
   {
-    this._userRepository = userRepository;
+    this._usersRepository = usersRepository;
   }
 
   public async Task<GetUserProfileDto?> GetUserProfile (int userId)
   {
-    return await _userRepository.GetProfileByIdAsync(userId);
+    return await _usersRepository.GetProfileByIdAsync(userId);
   }
 
   public async Task<IEnumerable<GetUserDto>> GetAllUsers ()
   {
-    return await _userRepository.GetAllAsync();
+    return await _usersRepository.GetAllAsync();
   }
 }
