@@ -1,15 +1,13 @@
 using backend.Data;
+using backend.DTOs.DeskReservation;
 using backend.DTOs.UserProfile;
-using backend.Models;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories;
 
 public interface IUserRepository
 {
-  Task<IEnumerable<User>> GetAllAsync();
-  Task<User?> GetByIdAsync(int userId);
+  Task<IEnumerable<GetUserDto>> GetAllAsync();
   Task<GetUserProfileDto?> GetProfileByIdAsync(int userId);
 }
 
@@ -22,14 +20,17 @@ public class UserRepository: IUserRepository
     this._dbContext = dbContext;
   }
 
-  public async Task<IEnumerable<User>> GetAllAsync()
+  public async Task<IEnumerable<GetUserDto>> GetAllAsync()
   {
-    return await _dbContext.Users.ToListAsync();
-  }
-
-  public async Task<User?> GetByIdAsync(int userId)
-  {
-    return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == userId);
+    return await _dbContext.Users
+      .Select(user => new GetUserDto
+      {
+        Id = user.Id,
+        Email = user.Email,
+        Name = user.Name,
+        Surname = user.Surname
+      })
+      .ToListAsync();
   }
 
   public async Task<GetUserProfileDto?> GetProfileByIdAsync(int userId)
