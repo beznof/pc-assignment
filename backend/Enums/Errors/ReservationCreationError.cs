@@ -8,5 +8,6 @@ public enum ReservationCreationError
   DateRangeOverlap,
   InsertFailure,
   InvalidDateRange,
-  DeskIsUnderMaintenance,
+  DeskIsUnderMaintenance, 
+  PastReservation
 }

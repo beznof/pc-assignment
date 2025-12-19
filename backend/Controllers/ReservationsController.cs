@@ -27,7 +27,7 @@ public class ReservationsController: ControllerBase
   /// <param name="body">User's and desk's identifiers, reservation's date start and end</param>
   /// <returns>Created reservation</returns>
   /// <response code="201">Returns created reservation</response>
-  /// <response code="400">Invalid date range or payload</response>
+  /// <response code="400">Invalid date range, reservation in the past or wrong payload</response>
   /// <response code="404">User or desk not found</response>
   /// <response code="409">Reservation overlaps with existing one or desk is under maintenance</response>
   /// <response code="500">Creation failed</response>
