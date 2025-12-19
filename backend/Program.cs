@@ -31,6 +31,19 @@ builder.Services.AddSwaggerGen(options =>
     options.EnableAnnotations();
 });
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "MyAllowSpecificOrigins",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000");
+            policy.AllowAnyMethod();
+            policy.AllowAnyHeader();
+        }
+    );
+});
+
 var app = builder.Build();
 
 // DB Seeding
@@ -48,6 +61,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("MyAllowSpecificOrigins");
 app.MapControllers();
 
 app.Run();

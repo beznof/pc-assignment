@@ -3,7 +3,6 @@ using backend.DTOs.DeskReservation;
 using backend.Enums.Errors;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace backend.Controllers;
 
