@@ -6,5 +6,6 @@ public enum ReservationCancellationError
   UserNotFound,
   ReservationNotFound,
   DeleteFailure,
-  UserReservationMisrelation
+  UserReservationMisrelation,
+  PastReservation
 }

@@ -17,6 +17,8 @@ builder.Services.AddScoped<IReservationsRepository, ReservationsRepository>();
 
 // Services
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IDesksService, DesksService>();
+builder.Services.AddScoped<IReservationsService, ReservationsService>();
 
 // SwaggerUI
 builder.Services.AddEndpointsApiExplorer();

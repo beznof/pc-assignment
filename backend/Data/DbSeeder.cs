@@ -13,7 +13,8 @@ public static class DbSeeder
       new Desk("C1"),
       new Desk("A2"),
       new Desk("B2"),
-      new Desk("A3", true)
+      new Desk("A3", true),
+      new Desk("A4")
     );
 
     // User seeding
@@ -29,6 +30,7 @@ public static class DbSeeder
     dbContext.Reservations.AddRange(
       new Reservation(todaysDate.AddDays(-2), todaysDate.AddDays(1), 1, 1),
       new Reservation(todaysDate, todaysDate.AddDays(5), 3, 1),
+      new Reservation(todaysDate.AddDays(-8), todaysDate.AddDays(-5), 7, 1),
       new Reservation(todaysDate.AddDays(-14), todaysDate, 4, 2),
       new Reservation(todaysDate.AddDays(-3), todaysDate.AddDays(3), 5, 2)
     );

@@ -26,6 +26,10 @@ public class ReservationsService: IReservationsService
 
   public async Task<(Reservation?, ReservationCreationError?)> CreateReservation (int userId, int deskId, DateOnly rangeFrom, DateOnly rangeTo)
   {
+    var today = DateOnly.FromDateTime(DateTime.Today);
+    if (rangeFrom < today)
+      return (null, ReservationCreationError.PastReservation);
+
     if (rangeTo > rangeFrom) 
       return (null, ReservationCreationError.InvalidDateRange);
 
@@ -36,6 +40,9 @@ public class ReservationsService: IReservationsService
     var desk = await _desksRepository.GetDeskByIdAsync(deskId);
     if (desk == null) 
       return (null, ReservationCreationError.DeskNotFound);
+
+    if (desk.IsUnderMaintenance) 
+      return (null, ReservationCreationError.DeskIsUnderMaintenance);
     
     var overlappingReservation = await _reservationsRepository.GetReservationByDeskIdOutsideRange(deskId, rangeFrom, rangeTo);
     if (overlappingReservation != null) 
@@ -57,6 +64,10 @@ public class ReservationsService: IReservationsService
     if (reservation == null) 
       return ReservationCancellationError.ReservationNotFound;
 
+    var today = DateOnly.FromDateTime(DateTime.Today);
+    if (reservation.ToDate < today) 
+      return ReservationCancellationError.PastReservation;
+
     var user = await _usersRepository.GetUserByIdAsync(userId);
     if (user == null) 
       return ReservationCancellationError.UserNotFound;
@@ -71,8 +82,6 @@ public class ReservationsService: IReservationsService
         await _reservationsRepository.DeleteReservation(reservationId);
       } else
       {
-        var today = DateOnly.FromDateTime(DateTime.Today);
-
         if (today == reservation.FromDate)
         {
           await _reservationsRepository.UpdateReservationDateFrom(reservation.Id, today.AddDays(1));

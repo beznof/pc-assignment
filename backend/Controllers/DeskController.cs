@@ -28,6 +28,7 @@ public class DeskController: ControllerBase
   /// <param name="rangeTo">Date range to</param>
   /// <returns>List of desks and reservations</returns>
   /// <response code="200">Returns desks and their reservations</response>
+  /// <response code="400">Invalid date range or wrong payload</response>
   /// <response code="404">User not found</response>
   [HttpGet]
   [ProducesResponseType(typeof(IEnumerable<GetDeskDto>), StatusCodes.Status200OK)]
@@ -37,12 +38,18 @@ public class DeskController: ControllerBase
   {
     var (desksAndReservations, error) = await _desksService.GetDesksAndReservations(rangeFrom, rangeTo, userId);
 
-    if (error == DeskRetrievalError.UserNotFound)
+    switch (error)
     {
-      return StatusCode(404, new ProblemDetails
-      {
-        Title = "User not found",
-      });
+      case DeskRetrievalError.UserNotFound:
+        return StatusCode(404, new ProblemDetails
+        {
+          Title = "User not found",
+        });
+      case DeskRetrievalError.InvalidDateRange:
+        return StatusCode(400, new ProblemDetails
+        {
+          Title = "Reservation must not end before its start",
+        });
     }
 
     return StatusCode(200, desksAndReservations);

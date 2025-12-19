@@ -8,6 +8,7 @@ public class GetDeskDto
   public bool IsDeskUnderMaintenance {get; set;}
   public bool IsDeskReserved {get; set;}
   public bool IsReservedByCurrentUser {get; set;}
+  public bool IsCancellableToday {get; set;}
   public string? ReservedBy {get; set;}
   public int? ReservationId {get; set;}
 }

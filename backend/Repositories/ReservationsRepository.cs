@@ -59,27 +59,34 @@ public class ReservationsRepository: IReservationsRepository
 
   public async Task DeleteReservation(int reservationId)
   {
-    await _dbContext.Reservations
-      .Where(reservation => reservation.Id == reservationId)
-      .ExecuteDeleteAsync();
+    var reservation = await this.GetReservationById(reservationId);
+
+    if (reservation == null) return;
+
+    _dbContext.Reservations.Remove(reservation);
+    await _dbContext.SaveChangesAsync();
   }
 
   public async Task UpdateReservationDateFrom(int reservationId, DateOnly fromDate)
   {
-    await _dbContext.Reservations
-      .Where(reservation => reservation.Id == reservationId)
-      .ExecuteUpdateAsync(setters => 
-        setters.SetProperty(reservation => reservation.FromDate, fromDate)
-      );
+    var reservation = await this.GetReservationById(reservationId);
+
+    if (reservation == null) return;
+
+    reservation.FromDate = fromDate;
+
+    await _dbContext.SaveChangesAsync();
   }
 
   public async Task UpdateReservationDateTo(int reservationId, DateOnly toDate)
   {
-    await _dbContext.Reservations
-      .Where(reservation => reservation.Id == reservationId)
-      .ExecuteUpdateAsync(setters => 
-        setters.SetProperty(reservation => reservation.ToDate, toDate)
-      );
+    var reservation = await this.GetReservationById(reservationId);
+
+    if (reservation == null) return;
+
+    reservation.ToDate = toDate;
+
+    await _dbContext.SaveChangesAsync();
   }
 
   public async Task SplitReservation (int reservationId, DateOnly firstRangeFrom, DateOnly firstRangeTo, DateOnly secondRangeFrom, DateOnly secondRangeTo)

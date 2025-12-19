@@ -7,5 +7,6 @@ public enum ReservationCreationError
   UserNotFound,
   DateRangeOverlap,
   InsertFailure,
-  InvalidDateRange
+  InvalidDateRange,
+  DeskIsUnderMaintenance,
 }

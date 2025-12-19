@@ -38,6 +38,7 @@ public class UsersRepository: IUsersRepository
     return await _dbContext.Users
       .Where(user => user.Id == userId)
       .Include(user => user.Reservations)
+      .ThenInclude(reservation => reservation.Desk)
       .OrderBy(user => user.Name)
       .ThenBy(user => user.Surname)
       .FirstOrDefaultAsync();

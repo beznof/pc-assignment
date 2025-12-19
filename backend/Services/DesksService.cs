@@ -24,10 +24,14 @@ public class DesksService: IDesksService
 
   public async Task<(IEnumerable<GetDeskDto>?, DeskRetrievalError?)> GetDesksAndReservations (DateOnly rangeFrom, DateOnly rangeTo, int userId)
   {
+    if (rangeFrom > rangeTo)
+      return (null, DeskRetrievalError.InvalidDateRange);
+
     var user = await _usersRepository.GetUserByIdAsync(userId);
     if (user == null)
       return (null, DeskRetrievalError.UserNotFound);
 
+    var today = DateOnly.FromDateTime(DateTime.Today);
 
     var desks = await _desksRepository.GetAllDesksAsync();
     var reservations = await _reservationsRepository.GetReservationsAndUserAsync();
@@ -49,6 +53,7 @@ public class DesksService: IDesksService
             IsDeskUnderMaintenance = desk.IsUnderMaintenance,
             IsDeskReserved = existingReservation != null,
             IsReservedByCurrentUser = reservationOwnerUser != null ? reservationOwnerUser.Id == userId : false,
+            IsCancellableToday = existingReservation != null ? existingReservation.FromDate <= today && existingReservation.ToDate >= today : false,
             ReservedBy = existingReservation != null ? $"{reservationOwnerUser?.Name} {reservationOwnerUser?.Surname} ({reservationOwnerUser?.Email})" : null,
             ReservationId = existingReservation != null ? existingReservation.Id : null
           };
