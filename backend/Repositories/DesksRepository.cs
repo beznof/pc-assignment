@@ -26,6 +26,8 @@ public class DesksRepository: IDesksRepository
 
   public async Task<IEnumerable<Desk>> GetAllDesksAsync ()
   {
-    return await _dbContext.Desks.ToListAsync();
+    return await _dbContext.Desks
+      .OrderBy(desk => desk.Code)
+      .ToListAsync();
   }
 }

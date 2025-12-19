@@ -1,4 +1,4 @@
-using backend.Enums;
+using backend.Enums.Errors;
 using backend.Models;
 using backend.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +8,7 @@ namespace backend.Services;
 public interface IReservationsService
 {
   Task<(Reservation?, ReservationCreationError?)> CreateReservation (int userId, int deskId, DateOnly rangeFrom, DateOnly rangeTo);
-  Task<ReservationCancellationError?> CancelReservation (int reservationId, bool todayOnly);
+  Task<ReservationCancellationError?> CancelReservation (int reservationId, int userId, bool todayOnly = false);
 }
 
 public class ReservationsService: IReservationsService
@@ -51,17 +51,50 @@ public class ReservationsService: IReservationsService
     }
   }
 
-  // public async Task<ReservationCancellationError?> CancelReservation (int reservationId, int userId, bool todayOnly = false)
-  // {
-  //   var reservation = await _reservationsRepository.GetReservationById(reservationId);
-  //   if (reservation == null) 
-  //     return ReservationCancellationError.ReservationNotFound;
+  public async Task<ReservationCancellationError?> CancelReservation (int reservationId, int userId, bool todayOnly = false)
+  {
+    var reservation = await _reservationsRepository.GetReservationById(reservationId);
+    if (reservation == null) 
+      return ReservationCancellationError.ReservationNotFound;
 
-  //   var user = await _usersRepository.GetUserByIdAsync(userId);
-  //   if (user == null) 
-  //     return ReservationCancellationError.UserNotFound;
+    var user = await _usersRepository.GetUserByIdAsync(userId);
+    if (user == null) 
+      return ReservationCancellationError.UserNotFound;
 
-  //   if (user.Id != reservation.UserId) 
-  //     return ReservationCancellationError.UserReservationMisrelation;
-  // }
+    if (user.Id != reservation.UserId) 
+      return ReservationCancellationError.UserReservationMisrelation;
+
+    try
+    {
+      if (!todayOnly || (reservation.FromDate == reservation.ToDate))
+      {
+        await _reservationsRepository.DeleteReservation(reservationId);
+      } else
+      {
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        if (today == reservation.FromDate)
+        {
+          await _reservationsRepository.UpdateReservationDateFrom(reservation.Id, today.AddDays(1));
+        } else if (today == reservation.ToDate)
+        {
+          await _reservationsRepository.UpdateReservationDateTo(reservation.Id, today.AddDays(-1));
+        } else
+        {
+          var firstRangeFrom = reservation.FromDate;
+          var firstRangeTo = today.AddDays(-1);
+
+          var secondRangeFrom = today.AddDays(1);
+          var secondRangeTo = reservation.ToDate;
+
+          await _reservationsRepository.SplitReservation(reservationId, firstRangeFrom, firstRangeTo, secondRangeFrom, secondRangeTo);
+        }
+      }
+
+      return null;
+    } catch (DbUpdateException)
+    {
+      return ReservationCancellationError.DeleteFailure;
+    }
+  }
 }

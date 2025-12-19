@@ -10,9 +10,9 @@ public class Reservation
 
   // Date range for reservation
   [Required]
-  public DateOnly FromDate {get; private set;}
+  public DateOnly FromDate {get; set;}
   [Required]
-  public DateOnly ToDate {get; private set;}
+  public DateOnly ToDate {get; set;}
 
   // Desk FK
   [Required]

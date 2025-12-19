@@ -40,7 +40,6 @@ public class UsersController : ControllerBase
       return StatusCode(404, new ProblemDetails
       {
         Title = "User not found",
-        Status = StatusCodes.Status404NotFound,
       });
     }
 

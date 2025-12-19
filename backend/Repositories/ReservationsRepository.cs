@@ -11,6 +11,10 @@ public interface IReservationsRepository
   Task<Reservation?> GetReservationById (int reservationId);
   Task<Reservation?> GetReservationByDeskIdOutsideRange (int deskId, DateOnly rangeFrom, DateOnly rangeTo);
   Task<Reservation> CreateReservation(int deskId, int userId, DateOnly rangeFrom, DateOnly rangeTo);
+  Task DeleteReservation(int reservationId);
+  Task UpdateReservationDateFrom(int reservationId, DateOnly fromDate);
+  Task UpdateReservationDateTo(int reservationId, DateOnly toDate);
+  Task SplitReservation (int reservationId, DateOnly firstRangeFrom, DateOnly firstRangeTo, DateOnly secondRangeFrom, DateOnly secondRangeTo);
 }
 
 public class ReservationsRepository: IReservationsRepository
@@ -51,5 +55,44 @@ public class ReservationsRepository: IReservationsRepository
     await _dbContext.SaveChangesAsync();
 
     return newReservation;
+  }
+
+  public async Task DeleteReservation(int reservationId)
+  {
+    await _dbContext.Reservations
+      .Where(reservation => reservation.Id == reservationId)
+      .ExecuteDeleteAsync();
+  }
+
+  public async Task UpdateReservationDateFrom(int reservationId, DateOnly fromDate)
+  {
+    await _dbContext.Reservations
+      .Where(reservation => reservation.Id == reservationId)
+      .ExecuteUpdateAsync(setters => 
+        setters.SetProperty(reservation => reservation.FromDate, fromDate)
+      );
+  }
+
+  public async Task UpdateReservationDateTo(int reservationId, DateOnly toDate)
+  {
+    await _dbContext.Reservations
+      .Where(reservation => reservation.Id == reservationId)
+      .ExecuteUpdateAsync(setters => 
+        setters.SetProperty(reservation => reservation.ToDate, toDate)
+      );
+  }
+
+  public async Task SplitReservation (int reservationId, DateOnly firstRangeFrom, DateOnly firstRangeTo, DateOnly secondRangeFrom, DateOnly secondRangeTo)
+  {
+    await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+    var reservation = await this.GetReservationById(reservationId);
+
+    await this.CreateReservation(reservation!.DeskId, reservation.UserId, firstRangeFrom, firstRangeTo);
+    await this.CreateReservation(reservation!.DeskId, reservation.UserId, secondRangeFrom, secondRangeTo);
+
+    await this.DeleteReservation(reservationId);
+
+    await transaction.CommitAsync();
   }
 }

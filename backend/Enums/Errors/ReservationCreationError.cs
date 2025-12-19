@@ -1,5 +1,5 @@
 
-namespace backend.Enums;
+namespace backend.Enums.Errors;
 
 public enum ReservationCreationError
 {

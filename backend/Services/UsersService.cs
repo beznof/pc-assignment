@@ -43,6 +43,7 @@ public class UsersService: IUsersService
           FromDate = reservation.FromDate,
           ToDate = reservation.ToDate
         })
+        .OrderBy(reservation => reservation.FromDate)
         .ToList(),
       PastReservations = user.Reservations
         .Where(reservation => reservation.ToDate < today)
@@ -52,6 +53,7 @@ public class UsersService: IUsersService
           FromDate = reservation.FromDate,
           ToDate = reservation.ToDate
         })
+        .OrderBy(reservation => reservation.FromDate)
         .ToList()
     };
   }

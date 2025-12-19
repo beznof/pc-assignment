@@ -27,7 +27,10 @@ public class UsersRepository: IUsersRepository
 
   public async Task<IEnumerable<User>> GetAllUsersAsync()
   {
-    return await _dbContext.Users.ToListAsync();
+    return await _dbContext.Users
+      .OrderBy(user => user.Name)
+      .ThenBy(user => user.Surname)
+      .ToListAsync();
   }
 
   public async Task<User?> GetUserAndReservationsByIdAsync(int userId)
@@ -35,6 +38,8 @@ public class UsersRepository: IUsersRepository
     return await _dbContext.Users
       .Where(user => user.Id == userId)
       .Include(user => user.Reservations)
+      .OrderBy(user => user.Name)
+      .ThenBy(user => user.Surname)
       .FirstOrDefaultAsync();
   }
 }
