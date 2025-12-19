@@ -1,11 +1,10 @@
-
 namespace backend.Enums.Errors;
 
 public enum ReservationCancellationError
 {
-  UserNotFound,
-  ReservationNotFound,
-  DeleteFailure,
-  UserReservationMisrelation,
-  PastReservation
+    UserNotFound,
+    ReservationNotFound,
+    DeleteFailure,
+    UserReservationMisrelation,
+    PastReservation
 }

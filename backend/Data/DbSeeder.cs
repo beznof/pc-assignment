@@ -22,10 +22,10 @@ public static class DbSeeder
       new User("jjuozas@example.com", "Juozas", "Juozaitis"),
       new User("aauksyte@example.com", "Auksė", "Auksytė"),
       new User("ggustaitis@example.com", "Gustas", "Gustaitis")
-    );
-
+    ); 
+    
     var todaysDate = DateOnly.FromDateTime(DateTime.Today);
-
+    
     // Reservation seeding
     dbContext.Reservations.AddRange(
       new Reservation(todaysDate.AddDays(-2), todaysDate.AddDays(1), 1, 1),
