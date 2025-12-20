@@ -9,6 +9,8 @@
 # Node
 /frontend/**/node_modules/
 /frontend/**/dist/
+/frontend/**/routeTree.gen.ts
+/frontend/**/.tanstack/
 
 # Environmental variables
 .env*
