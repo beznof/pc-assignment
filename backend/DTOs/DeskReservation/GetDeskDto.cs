@@ -10,4 +10,6 @@ public class GetDeskDto
     public bool IsCancellableToday { get; set; }
     public string? ReservedBy { get; set; }
     public int? ReservationId { get; set; }
+    public DateOnly? FromRange { get; set; }
+    public DateOnly? ToRange { get; set; }
 }

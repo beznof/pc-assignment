@@ -34,7 +34,7 @@ public class ReservationsService : IReservationsService
         if (rangeFrom < today)
             return (null, ReservationCreationError.PastReservation);
 
-        if (rangeTo > rangeFrom)
+        if (rangeTo < rangeFrom)
             return (null, ReservationCreationError.InvalidDateRange);
 
         var user = await _usersRepository.GetUserByIdAsync(userId);

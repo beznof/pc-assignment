@@ -61,9 +61,11 @@ public class DesksService : IDesksService
                         ? existingReservation.FromDate <= today && existingReservation.ToDate >= today
                         : false,
                     ReservedBy = existingReservation != null
-                        ? $"{reservationOwnerUser?.Name} {reservationOwnerUser?.Surname} ({reservationOwnerUser?.Email})"
+                        ? $"{reservationOwnerUser?.Name} {reservationOwnerUser?.Surname}"
                         : null,
-                    ReservationId = existingReservation != null ? existingReservation.Id : null
+                    ReservationId = existingReservation != null ? existingReservation.Id : null,
+                    FromRange = existingReservation != null ? existingReservation.FromDate : null,
+                    ToRange = existingReservation != null ? existingReservation.ToDate : null
                 };
             })
             .ToList();

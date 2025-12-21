@@ -93,7 +93,7 @@ public class ReservationsRepository : IReservationsRepository
     public async Task SplitReservation(int reservationId, DateOnly firstRangeFrom, DateOnly firstRangeTo,
         DateOnly secondRangeFrom, DateOnly secondRangeTo)
     {
-        await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        //await using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
         var reservation = await this.GetReservationById(reservationId);
 
@@ -102,6 +102,6 @@ public class ReservationsRepository : IReservationsRepository
 
         await this.DeleteReservation(reservationId);
 
-        await transaction.CommitAsync();
+        //await transaction.CommitAsync();
     }
 }
