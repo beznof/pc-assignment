@@ -55,7 +55,7 @@ public class ReservationsService : IReservationsService
 
         try
         {
-            var newReservation = await _reservationsRepository.CreateReservation(userId, deskId, rangeFrom, rangeTo);
+            var newReservation = await _reservationsRepository.CreateReservation(deskId, userId, rangeFrom, rangeTo);
             return (newReservation, null);
         }
         catch (DbUpdateException)

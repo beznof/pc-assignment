@@ -2,13 +2,17 @@ using backend.Data;
 using backend.Repositories;
 using backend.Services;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 // DB
-builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseInMemoryDatabase("DesksDB");
+});
 
 // Repositories
 builder.Services.AddScoped<IDesksRepository, DesksRepository>();

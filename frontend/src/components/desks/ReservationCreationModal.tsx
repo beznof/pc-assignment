@@ -1,5 +1,6 @@
 import CloseModalIcon from "../../assets/icons/CloseModalIcon.tsx";
 import {Separator} from "@radix-ui/themes";
+import DatePicker from "./DatePicker.tsx";
 
 type ReservationCreationModalProps = {
   closeModal: () => void;
@@ -22,36 +23,16 @@ const ReservationCreationModal = ({closeModal, rangeFrom, rangeTo, setRangeFrom,
           <h2 className="text-6xl text-center font-medium">Create a reservation</h2>
           <Separator size="4"/>
           <div className="flex flex-col justify-center items-end gap-y-12 py-8">
-            <div className="flex flex-row items-center justify-center gap-x-4">
-              <label
-                htmlFor="rangeFrom"
-                className="text-3xl font-light"
-              >
-                From
-              </label>
-              <input
-                id="rangeFrom"
-                type="date"
-                value={rangeFrom}
-                onChange={(e) => setRangeFrom(e.target.value)}
-                className="px-2 text-3xl font-medium border border-zinc-500 rounded-lg cursor-pointer"
-              />
-            </div>
-            <div className="flex flex-row items-center justify-center gap-x-4">
-              <label
-                htmlFor="rangeFrom"
-                className="text-3xl font-light"
-              >
-                To
-              </label>
-              <input
-                id="rangeTo"
-                type="date"
-                value={rangeTo}
-                onChange={(e) => setRangeTo(e.target.value)}
-                className="px-2 text-3xl font-medium border border-zinc-500 rounded-lg cursor-pointer"
-              />
-            </div>
+            <DatePicker
+              label="From"
+              date={rangeFrom}
+              setDate={setRangeFrom}
+            />
+            <DatePicker
+              label="To"
+              date={rangeTo}
+              setDate={setRangeTo}
+            />
             <div className="w-full flex justify-center">
               <button
                 className="bg-emerald-500 py-2 px-4 rounded-lg text-2xl font-medium text-white min-w-[50%] hover:bg-emerald-500/80 cursor-pointer"

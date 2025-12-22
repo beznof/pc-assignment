@@ -1,10 +1,10 @@
 
-type UnreservedByCurrentProps = {
+type UnreservedProps = {
   openModal: (deskId: number | null) => void;
   submitDeskId: number | null;
 };
 
-const Unreserved = ({openModal, submitDeskId}: UnreservedByCurrentProps) => {
+const Unreserved = ({openModal, submitDeskId}: UnreservedProps) => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <button

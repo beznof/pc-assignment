@@ -11,7 +11,8 @@ type DeskData = {
   isDeskUnderMaintenance: boolean,
   isDeskReserved: boolean,
   isReservedByCurrentUser: boolean,
-  isCancellableToday: true,
+  isCancellableToday: boolean,
+  isCancellable: boolean
   reservedBy: string,
   reservationId: number,
   fromRange: string,
@@ -57,6 +58,7 @@ const DeskCard = ({desk, isLoading, onCancel, openModal, submitDeskId}: DeskCard
                 return <ReservedByCurrent
                   reservationId={desk.reservationId}
                   isCancellableToday={desk.isCancellableToday}
+                  isCancellable={desk.isCancellable}
                   fromRange={desk.fromRange ?? "..."}
                   toRange={desk.toRange ?? "..."}
                   isLoading={isLoading}

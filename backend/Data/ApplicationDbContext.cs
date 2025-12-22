@@ -9,10 +9,7 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; private set; }
     public DbSet<Reservation> Reservations { get; private set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseInMemoryDatabase("DesksDB");
-    }
+   public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

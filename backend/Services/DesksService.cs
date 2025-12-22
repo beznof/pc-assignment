@@ -60,6 +60,9 @@ public class DesksService : IDesksService
                     IsCancellableToday = existingReservation != null
                         ? existingReservation.FromDate <= today && existingReservation.ToDate >= today
                         : false,
+                    IsCancellable = existingReservation != null
+                        ? existingReservation.ToDate >= today
+                        : false,
                     ReservedBy = existingReservation != null
                         ? $"{reservationOwnerUser?.Name} {reservationOwnerUser?.Surname}"
                         : null,

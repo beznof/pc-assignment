@@ -5,10 +5,10 @@ import {Card, Skeleton} from "@radix-ui/themes";
 import {Link} from "@tanstack/react-router";
 
 export const Route = createFileRoute('/profiles')({
-  component: RouteComponent,
+  component: ProfilesPage,
 })
 
-function RouteComponent() {
+function ProfilesPage() {
   const {users, user} = useContext(UserContext);
 
   const isLoading = false;

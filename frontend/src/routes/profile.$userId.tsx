@@ -6,10 +6,10 @@ import axios from "axios";
 import ReservationsTable, {type UserProfileData} from "../components/profile/ReservationsTable.tsx";
 
 export const Route = createFileRoute('/profile/$userId')({
-  component: RouteComponent,
+  component: ProfilePage,
 })
 
-function RouteComponent() {
+function ProfilePage() {
   const navigate = useNavigate();
 
   const { userId } = Route.useParams();

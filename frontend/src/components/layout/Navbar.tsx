@@ -11,16 +11,16 @@ const Navbar = () => {
 
   return (
     <div className="w-full h-full py-2 px-5 flex items-center justify-center border-b border-stone-200">
-      <div className="h-full flex flex-row items-center justify-between w-full">
+      <div className="h-full flex flex-col md:flex-row items-center justify-between w-full">
         <div className="flex flexrow gap-x-4 w-fit">
           <NavItem
             title="Desks"
-            icon={<DeskIcon className="h-5 w-5 fill-stone-800"/>}
+            icon={<DeskIcon className="size-6 fill-stone-800"/>}
             to="/"
           />
           <NavItem
             title="Profiles"
-            icon={<ProfileIcon className="h-5 w-5 fill-stone-800"/>}
+            icon={<ProfileIcon className="size-6 fill-stone-800"/>}
             to="/profiles"
           />
         </div>
