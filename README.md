@@ -49,7 +49,7 @@ The web application revolves around viewing and managing reservations for shared
 2. Launch backend application  
     2.1. Navigate to the corresponding directory
     ```bash
-      cd backend
+      cd pc-assignment/backend
     ```  
     2.2. Install packages
     ```bash
@@ -62,7 +62,7 @@ The web application revolves around viewing and managing reservations for shared
 3. Launch frontend application  
     3.1. Navigate to the corresponding directory (via separate terminal)
     ```bash
-      cd frontend
+      cd pc-assignment/frontend
     ```  
     3.2. Install packages
     ```bash
