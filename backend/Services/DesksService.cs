@@ -34,7 +34,7 @@ public class DesksService : IDesksService
         if (user == null)
             return (null, DeskRetrievalError.UserNotFound);
 
-        var today = DateOnly.FromDateTime(DateTime.Today);
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
 
         var desks = await _desksRepository.GetAllDesksAsync();
         var reservations = await _reservationsRepository.GetReservationsAndUserAsync();

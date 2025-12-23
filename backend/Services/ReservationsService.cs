@@ -30,7 +30,7 @@ public class ReservationsService : IReservationsService
     public async Task<(Reservation?, ReservationCreationError?)> CreateReservation(int userId, int deskId,
         DateOnly rangeFrom, DateOnly rangeTo)
     {
-        var today = DateOnly.FromDateTime(DateTime.Today);
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
         if (rangeFrom < today)
             return (null, ReservationCreationError.PastReservation);
 
@@ -71,7 +71,7 @@ public class ReservationsService : IReservationsService
         if (reservation == null)
             return ReservationCancellationError.ReservationNotFound;
 
-        var today = DateOnly.FromDateTime(DateTime.Today);
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
         if (reservation.ToDate < today)
             return ReservationCancellationError.PastReservation;
 

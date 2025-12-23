@@ -28,7 +28,7 @@ public class UsersService : IUsersService
             return null;
         }
 
-        var today = DateOnly.FromDateTime(DateTime.Today);
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
 
         return new GetUserProfileDto
         {
